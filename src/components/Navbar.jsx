@@ -11,7 +11,6 @@ const Navbar = () => {
     (state) => state.userAuthStatus
   );
   const dispatch = useDispatch();
-  console.log(user, isAuthenticated);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -30,7 +29,7 @@ const Navbar = () => {
     }
   };
   return (
-    <nav className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg">
+    <nav className="bg-gray-900 text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
