@@ -1,9 +1,10 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const incomeApi = createApi({
   reducerPath: "incomeApi",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+    credentials: "include",
   }),
   tagTypes: ["Income"],
   endpoints: (builder) => ({

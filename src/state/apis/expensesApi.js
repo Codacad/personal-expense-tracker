@@ -1,26 +1,33 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const expenseApi = createApi({
-  reducerPath: 'expenseApi',
-  baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}),
+  reducerPath: "expenseApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+    credentials: "include",
+  }),
   endpoints: (builder) => ({
     getExpenses: builder.query({
-      query: () => '/expenses',
+      query: () => "/expenses",
     }),
     addExpense: builder.mutation({
       query: (expense) => ({
-        url: '/expense/add',
-        method: 'POST',
+        url: "/expense/add",
+        method: "POST",
         body: expense,
       }),
     }),
     deleteExpense: builder.mutation({
       query: (id) => ({
         url: `expense/delete/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
     }),
   }),
 });
 
-export const {useGetExpensesQuery, useAddExpenseMutation, useDeleteExpenseMutation} = expenseApi;
+export const {
+  useGetExpensesQuery,
+  useAddExpenseMutation,
+  useDeleteExpenseMutation,
+} = expenseApi;
 export default expenseApi;

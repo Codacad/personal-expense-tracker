@@ -12,6 +12,8 @@ const AddExpense = () => {
   });
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Handle input change
   const handleChange = (e) => {
@@ -26,33 +28,32 @@ const AddExpense = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      !expense.amount ||
-      !expense.category ||
-      !expense.date ||
-      !expense.description
-    ) {
-      setError("Please fill in all fields");
-      return;
-    }
+    setLoading(true);
 
     try {
       const response = await addExpense(expense);
-      console.log(response);
+      if (response.error) {
+        setError(response.error.data.message);
+        setSuccess("");
+      }
+      if (response.data) {
+        setSuccess(response.data.message);
+        setError("");
+        setExpense({
+          title: "",
+          amount: "",
+          category: "",
+          date: "",
+          description: "",
+        });
+      }
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
 
-    // Clear form after submission
-    // setExpense({
-    //   title: "",
-    //   amount: "",
-    //   category: "",
-    //   date: "",
-    //   description: "",
-    // });
-
-    setError("");
+    // If you are ready to send data to server, you can use an API call here.
   };
 
   return (
@@ -65,6 +66,7 @@ const AddExpense = () => {
           </h2>
 
           {error && <div className="mb-4 text-red-500">{error}</div>}
+          {success && <div className="mb-4 text-green-500">{success}</div>}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -194,10 +196,11 @@ const AddExpense = () => {
 
             <div className="text-center">
               <button
+              disabled={loading}
                 type="submit"
                 className="px-6 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-lg hover:bg-red-700 transition duration-300"
               >
-                Add Expense
+                {loading ? "Adding Expense..." : "Add Expense"}
               </button>
             </div>
           </form>

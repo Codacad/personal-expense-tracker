@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Savings from "/savings.svg";
+import { useAddIncomeMutation } from "../state/apis/incomeApis";
 const AddIncome = () => {
+  const [addIncome] = useAddIncomeMutation();
   const [income, setIncome] = useState({
     amount: "",
     source: "",
@@ -10,6 +12,8 @@ const AddIncome = () => {
   });
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Handle input change
   const handleChange = (e) => {
@@ -21,35 +25,36 @@ const AddIncome = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      !income.amount ||
-      !income.source ||
-      !income.category ||
-      !income.date ||
-      !income.description
-    ) {
-      setError("Please fill in all fields");
-      return;
+    setLoading(true);
+
+    try {
+      const response = await addIncome(income);
+      if (response.error) {
+        setError(response.error.data.message);
+        setSuccess("");
+      }
+      if (response.data) {
+        setSuccess(response.data.message);
+        setError("");
+        setIncome({
+          source: "",
+          amount: "",
+          category: "",
+          date: "",
+          description: "",
+        });
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
     }
 
     // If you are ready to send data to server, you can use an API call here.
-    console.log("Income submitted:", income);
-
-    // Clear form after submission
-    setIncome({
-      amount: "",
-      source: "",
-      category: "",
-      date: "",
-      description: "",
-    });
-
-    setError("");
   };
-
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center p-6">
       <div className="bg-white rounded-lg shadow-lg max-w-6xl w-full overflow-hidden grid grid-cols-1 md:grid-cols-2">
@@ -60,6 +65,7 @@ const AddIncome = () => {
           </h2>
 
           {error && <div className="mb-4 text-red-500">{error}</div>}
+          {success && <div className="mb-4 text-green-500">{success}</div>}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
