@@ -13,6 +13,7 @@ const userAuthStatus = createSlice({
       localStorage.setItem("isAuthenticated", true);
       localStorage.setItem("user", JSON.stringify(action.payload.user));
     },
+   
   },
 });
 export const { setUser } = userAuthStatus.actions;

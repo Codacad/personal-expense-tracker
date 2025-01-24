@@ -17,6 +17,10 @@ import Register from "./routes/Register.jsx";
 import store from "./store.js";
 import { Provider } from "react-redux";
 import NotLoggedIn from "./components/NotLoggedIn.jsx";
+import Profile from "./routes/Profile.jsx";
+import ForgotPassword from "./routes/ForgotPassword.jsx";
+import ResetPassword from "./routes/ResetPassword.jsx";
+import ValidateResetPasswordUser from "./components/ValidateResetPasswordUser.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -74,9 +78,26 @@ const router = createBrowserRouter([
           </NotLoggedIn>
         ),
       },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "/reset-password",
+        element: (
+          <ValidateResetPasswordUser>
+            <ResetPassword />
+          </ValidateResetPasswordUser>
+        ),
+      },
     ],
   },
 ]);
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>

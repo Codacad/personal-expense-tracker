@@ -22,7 +22,9 @@ const Login = () => {
       [name]: value,
     }));
   };
-
+  const [step, setStep] = useState(
+    JSON.parse(localStorage.getItem("step")) || 1
+  );
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -112,6 +114,14 @@ const Login = () => {
             className="text-teal-600 font-semibold hover:underline"
           >
             Register here
+          </Link>
+        </p>
+        <p className="mt-6 text-center">
+          <Link
+            to={`/forgot-password`}
+            className="text-teal-600 font-semibold hover:underline"
+          >
+            Forgot Password?
           </Link>
         </p>
       </div>
