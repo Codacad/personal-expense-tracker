@@ -4,13 +4,15 @@ import {
   setUserResetPassword,
   setOtpValidated,
 } from "../state/other/resetUserPassword";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   useValidateOtpMutation,
   useResetPasswordMutation,
 } from "../state/apis/forgotPasswordApi";
 
 const ValidateOtp = () => {
+  const location = useLocation();
+  const [pasResExMes, setPassResExMess] = useState('')
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [otp, setOtp] = useState("");
@@ -24,7 +26,6 @@ const ValidateOtp = () => {
   const [otpExpiredError, setOtpExpiredError] = useState(false);
   const [validateOtp] = useValidateOtpMutation();
   const [resetPassword] = useResetPasswordMutation();
-  const [otpValidation, setOtpValidation] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const handleCancelResetPassword = async () => {
     localStorage.removeItem("resetPasswordUser");
@@ -49,7 +50,6 @@ const ValidateOtp = () => {
         setSuccess(response.data.message);
         dispatch(setOtpValidated(true));
         localStorage.setItem("otpValidated", true);
-        setOtpValidation(true);
         setError("");
         setIsLoading(false);
       }
@@ -59,6 +59,7 @@ const ValidateOtp = () => {
     }
   };
 
+  // Checks opt expiry
   useEffect(() => {
     const currentTime = new Date();
     const expires = new Date(
@@ -68,29 +69,44 @@ const ValidateOtp = () => {
     console.log(remainingTime);
     if (remainingTime <= 0) {
       localStorage.removeItem("resetPasswordUser");
-      console.log("OTP expired");
       navigate("/send-otp");
       setOtpExpiredError(true);
       dispatch(setOtpValidated(null));
+      setUserResetPassword(null);
+      localStorage.removeItem("resetPasswordUser");
       localStorage.removeItem("otpValidated");
-    } else {
-      const timer = setTimeout(() => {
-        localStorage.removeItem("resetPasswordUser");
-        navigate("/send-otp");
-        setOtpExpiredError(true);
-        dispatch(setOtpValidated(null));
-        localStorage.removeItem("otpValidated");
-      }, remainingTime);
-      return clearTimeout(timer);
     }
+    // else {
+    //   const timer = setTimeout(() => {
+    //     localStorage.removeItem("resetPasswordUser");
+    //     navigate("/send-otp");
+    //     // setOtpExpiredError(true);
+    //     // dispatch(setOtpValidated(null));
+    //     // localStorage.removeItem("otpValidated");
+    //   }, remainingTime);
+    //   return clearTimeout(timer);
+    // }
   }, [resetPasswordUser, navigate, dispatch]);
 
+  // reset the forgor password
+  useEffect(() => {
+    dispatch(setOtpValidated(null));
+    setUserResetPassword(null);
+    localStorage.removeItem("resetPasswordUser");
+    localStorage.removeItem("otpValidated");
+  }, [location, dispatch]);
+
+  console.log(location.pathname);
   // handle reset Otp
   const handleResetPassword = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await resetPassword({email:resetPasswordUser.email, newPassword, confirmNewPassword });
+      const response = await resetPassword({
+        email: resetPasswordUser.email,
+        newPassword,
+        confirmNewPassword,
+      });
       if (response.error) {
         console.log(response);
         setError(response.error.data.message);

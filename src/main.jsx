@@ -21,6 +21,7 @@ import Profile from "./routes/Profile.jsx";
 import ValidateResetPasswordUser from "./components/ValidateResetPasswordUser.jsx";
 import SendOtp from "./routes/SendOtp.jsx";
 import ValidateOtp from "./routes/ValidateOtp.jsx";
+import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -80,7 +81,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: (
+          <ProtectedRoutes>
+            <Profile />
+          </ProtectedRoutes>
+        ),
       },
       {
         path: "/send-otp",
@@ -89,6 +94,7 @@ const router = createBrowserRouter([
       {
         path: "/validate-otp",
         element: (
+          // Render the Validate OTP page if the user reset password user is active
           <ValidateResetPasswordUser>
             <ValidateOtp />
           </ValidateResetPasswordUser>
