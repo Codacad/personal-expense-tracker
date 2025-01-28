@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setUserResetPassword } from "../state/other/resetUserPassword";
 import { useDispatch, useSelector } from "react-redux";
-import { useForgotPasswordMutation } from "../state/apis/forgotPasswordApi";
-const ForgotPassword = () => {
+import { useSendOtpMutation } from "../state/apis/forgotPasswordApi";
+const SendOtp = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const [forgotPassword] = useForgotPasswordMutation();
+  const [sendOtp] = useSendOtpMutation();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await forgotPassword({ email });
+      const response = await sendOtp({ email });
       if (response.data) {
         setSuccess("OTP sent successfully");
         localStorage.setItem(
@@ -31,16 +31,16 @@ const ForgotPassword = () => {
           JSON.stringify(response.data.user)
         );
         dispatch(setUserResetPassword(response.data.user));
-        navigate("/reset-password");
+        navigate("/validate-otp");
       }
+
       if (response.error) {
         setError(response.error.data.message);
-        console.log(response.error.data.message);
       }
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setLoading(false);
+      setError(error.message);
     }
   };
 
@@ -105,4 +105,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default SendOtp;

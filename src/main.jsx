@@ -18,9 +18,9 @@ import store from "./store.js";
 import { Provider } from "react-redux";
 import NotLoggedIn from "./components/NotLoggedIn.jsx";
 import Profile from "./routes/Profile.jsx";
-import ForgotPassword from "./routes/ForgotPassword.jsx";
-import ResetPassword from "./routes/ResetPassword.jsx";
 import ValidateResetPasswordUser from "./components/ValidateResetPasswordUser.jsx";
+import SendOtp from "./routes/SendOtp.jsx";
+import ValidateOtp from "./routes/ValidateOtp.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -83,14 +83,14 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/forgot-password",
-        element: <ForgotPassword />,
+        path: "/send-otp",
+        element: <SendOtp />,
       },
       {
-        path: "/reset-password",
+        path: "/validate-otp",
         element: (
           <ValidateResetPasswordUser>
-            <ResetPassword />
+            <ValidateOtp />
           </ValidateResetPasswordUser>
         ),
       },

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import Logo from '/logo 100x50.svg'
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../state/other/userAuthStatus";
 import { useLogoutMutation } from "../state/apis/authApi";
@@ -23,6 +24,7 @@ const Navbar = () => {
       dispatch(setUser({ isAuthenticated: false, user: null }));
       localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("user");
+      toggleMobileMenu()
       navigate("/login");
     } catch (error) {
       console.log(error);
@@ -34,7 +36,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 text-2xl font-bold">
-            <Link to="/">FinTrack</Link>
+            <Link to="/"><img className="w-[150px]" src={Logo} alt="FinTack Logo" /></Link>
           </div>
 
           {/* Desktop Menu */}
@@ -177,6 +179,7 @@ const Navbar = () => {
         <div className="flex flex-col space-y-6 p-6 mt-12">
           <NavLink
             to="/dashboard"
+            onClick={toggleMobileMenu}
             className={({ isActive }) =>
               `${isActive ? "bg-indigo-600" : ""} block text-white p-2 rounded`
             }
@@ -185,6 +188,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink
             to="/income"
+            onClick={toggleMobileMenu}
             className={({ isActive }) =>
               `${isActive ? "bg-indigo-600" : ""} block text-white p-2 rounded`
             }
@@ -193,6 +197,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink
             to="/expenses"
+            onClick={toggleMobileMenu}
             className={({ isActive }) =>
               `${isActive ? "bg-indigo-600" : ""} block text-white p-2 rounded`
             }
@@ -201,6 +206,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink
             to="/reports"
+            onClick={toggleMobileMenu}
             className={({ isActive }) =>
               `${isActive ? "bg-indigo-600" : ""} block text-white p-2 rounded`
             }
@@ -209,6 +215,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink
             to="/profile"
+            onClick={toggleMobileMenu}
             className={({ isActive }) =>
               `${isActive ? "bg-indigo-600" : ""} block text-white p-2 rounded`
             }
@@ -218,7 +225,7 @@ const Navbar = () => {
           {user && (
             <button
               onClick={handleLogout}
-              className="block text-white p-2 rounded"
+              className="block bg-white text-gray-800 p-2 rounded"
             >
               Logout
             </button>
@@ -228,13 +235,15 @@ const Navbar = () => {
               {" "}
               <Link
                 to="/register"
+                onClick={toggleMobileMenu}
                 className="block text-teal-500 bg-white px-4 py-2 rounded hover:bg-gray-100"
               >
                 Register
               </Link>
               <Link
                 to="/login"
-                className="block text-blue-500 bg-white px-4 py-2 rounded hover:bg-gray-100"
+                onClick={toggleMobileMenu}
+                className="block mt-4 text-blue-500 bg-white px-4 py-2 rounded hover:bg-gray-100"
               >
                 Login
               </Link>

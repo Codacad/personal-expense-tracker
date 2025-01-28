@@ -6,15 +6,33 @@ const forgotPasswordApi = createApi({
   }),
   tagTypes: [],
   endpoints: (builder) => ({
-    forgotPassword: builder.mutation({
+    sendOtp: builder.mutation({
       query: (data) => ({
-        url: "/forgot-password",
+        url: "/send-otp",
         method: "POST",
+        body: data,
+      }),
+    }),
+    validateOtp: builder.mutation({
+      query: (data) => ({
+        url: "/validate-otp",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: "/reset-password",
+        method: "PATCH",
         body: data,
       }),
     }),
   }),
 });
 
-export const { useForgotPasswordMutation } = forgotPasswordApi;
+export const {
+  useSendOtpMutation,
+  useValidateOtpMutation,
+  useResetPasswordMutation,
+} = forgotPasswordApi;
 export default forgotPasswordApi;
