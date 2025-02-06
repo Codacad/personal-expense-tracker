@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useSelector(
+  const { user } = useSelector(
     (state) => state.userAuthStatus
   );
   const dispatch = useDispatch();
