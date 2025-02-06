@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import Logo from '/logo 100x50.svg'
+import Logo from "/logo 100x50.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../state/other/userAuthStatus";
 import { useLogoutMutation } from "../state/apis/authApi";
@@ -24,7 +24,7 @@ const Navbar = () => {
       dispatch(setUser({ isAuthenticated: false, user: null }));
       localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("user");
-      toggleMobileMenu()
+      toggleMobileMenu();
       navigate("/login");
     } catch (error) {
       console.log(error);
@@ -36,7 +36,9 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 text-2xl font-bold">
-            <Link to="/"><img className="w-[150px]" src={Logo} alt="FinTack Logo" /></Link>
+            <Link to="/">
+              <img className="w-[150px]" src={Logo} alt="FinTack Logo" />
+            </Link>
           </div>
 
           {/* Desktop Menu */}
@@ -73,14 +75,16 @@ const Navbar = () => {
             >
               Reports
             </NavLink>
-            <NavLink
-              to="/profile"
-              className={({ isActive }) =>
-                isActive ? activeLinkClasses : linkClasses
-              }
-            >
-              Profile
-            </NavLink>
+            {user && (
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive ? activeLinkClasses : linkClasses
+                }
+              >
+                Profile
+              </NavLink>
+            )}
             {/* Register and Login Buttons */}
             {!user && (
               <div className="space-x-4">

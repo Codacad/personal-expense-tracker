@@ -58,6 +58,11 @@ const AddExpense = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+      {loading && (
+        <div className="spinner-wrapper">
+          <div className="spinner"></div>
+        </div>
+      )}
       <div className="bg-white rounded-lg shadow-lg max-w-6xl w-full overflow-hidden grid grid-cols-1 md:grid-cols-2">
         {/* Left Column - Form */}
         <div className="p-8">
@@ -196,7 +201,7 @@ const AddExpense = () => {
 
             <div className="text-center">
               <button
-              disabled={loading}
+                disabled={loading}
                 type="submit"
                 className="px-6 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-lg hover:bg-red-700 transition duration-300"
               >

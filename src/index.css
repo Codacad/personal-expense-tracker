@@ -3,8 +3,30 @@
 @tailwind utilities;
 
 .host-grotesk {
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: "Host Grotesk", sans-serif;
 }
 .oswald {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
+}
+.spinner-wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: 100vh;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.spinner {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
 }

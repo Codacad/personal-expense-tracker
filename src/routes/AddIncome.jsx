@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Savings from "/savings.svg";
+import {Link} from 'react-router-dom'
 import { useAddIncomeMutation } from "../state/apis/incomeApis";
 const AddIncome = () => {
   const [addIncome] = useAddIncomeMutation();
@@ -57,6 +58,11 @@ const AddIncome = () => {
   };
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+      {loading && (
+        <div className="spinner-wrapper">
+          <div className="spinner"></div>
+        </div>
+      )}
       <div className="bg-white rounded-lg shadow-lg max-w-6xl w-full overflow-hidden grid grid-cols-1 md:grid-cols-2">
         {/* Left Column - Form */}
         <div className="p-8">
@@ -107,47 +113,52 @@ const AddIncome = () => {
             </div>
 
             <div className="mb-4">
-      <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-        Category
-      </label>
-      <select
-        id="category"
-        name="category"
-        value={income.category}
-        onChange={handleChange}
-        className="w-full p-3 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-        required
-      >
-        <option value="" disabled>Select a category</option>
-        <option value="Salary">Salary</option>
-        <option value="Freelance">Freelance</option>
-        <option value="Business">Business</option>
-        <option value="Investment">Investment</option>
-        <option value="Rent">Rent</option>
-        <option value="Dividends">Dividends</option>
-        <option value="Capital Gains">Capital Gains</option>
-        <option value="Savings Interest">Savings Interest</option>
-        <option value="Pension">Pension</option>
-        <option value="Government Benefits">Government Benefits</option>
-        <option value="Inheritance">Inheritance</option>
-        <option value="Lottery">Lottery</option>
-        <option value="Insurance Payout">Insurance Payout</option>
-        <option value="Gift">Gift</option>
-        <option value="Grants">Grants</option>
-        <option value="Scholarship">Scholarship</option>
-        <option value="Crowdfunding">Crowdfunding</option>
-        <option value="Royalties">Royalties</option>
-        <option value="Consulting">Consulting</option>
-        <option value="Stock Options">Stock Options</option>
-        <option value="Part-time Job">Part-time Job</option>
-        <option value="Bonuses">Bonuses</option>
-        <option value="Referral Income">Referral Income</option>
-        <option value="Affiliate Marketing">Affiliate Marketing</option>
-        <option value="Tips">Tips</option>
-        <option value="Rental Income">Rental Income</option>
-        <option value="Other">Other</option>
-      </select>
-    </div>
+              <label
+                htmlFor="category"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Category
+              </label>
+              <select
+                id="category"
+                name="category"
+                value={income.category}
+                onChange={handleChange}
+                className="w-full p-3 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                required
+              >
+                <option value="" disabled>
+                  Select a category
+                </option>
+                <option value="Salary">Salary</option>
+                <option value="Freelance">Freelance</option>
+                <option value="Business">Business</option>
+                <option value="Investment">Investment</option>
+                <option value="Rent">Rent</option>
+                <option value="Dividends">Dividends</option>
+                <option value="Capital Gains">Capital Gains</option>
+                <option value="Savings Interest">Savings Interest</option>
+                <option value="Pension">Pension</option>
+                <option value="Government Benefits">Government Benefits</option>
+                <option value="Inheritance">Inheritance</option>
+                <option value="Lottery">Lottery</option>
+                <option value="Insurance Payout">Insurance Payout</option>
+                <option value="Gift">Gift</option>
+                <option value="Grants">Grants</option>
+                <option value="Scholarship">Scholarship</option>
+                <option value="Crowdfunding">Crowdfunding</option>
+                <option value="Royalties">Royalties</option>
+                <option value="Consulting">Consulting</option>
+                <option value="Stock Options">Stock Options</option>
+                <option value="Part-time Job">Part-time Job</option>
+                <option value="Bonuses">Bonuses</option>
+                <option value="Referral Income">Referral Income</option>
+                <option value="Affiliate Marketing">Affiliate Marketing</option>
+                <option value="Tips">Tips</option>
+                <option value="Rental Income">Rental Income</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
 
             <div>
               <label
@@ -189,10 +200,13 @@ const AddIncome = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className="px-6 py-3 bg-teal-600 text-white font-semibold rounded-lg shadow-lg hover:bg-teal-700 transition duration-300"
+                className="px-6 py-2 bg-teal-600 text-white font-semibold rounded-lg shadow-lg hover:bg-teal-700 transition duration-300"
               >
                 Add Income
               </button>
+              <p className="mt-6">
+                <Link to="/expense/add" className="text-blue-500 font-bold text-md">Add Expense</Link>
+              </p>
             </div>
           </form>
         </div>
